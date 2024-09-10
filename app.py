@@ -131,14 +131,14 @@ def upload_files():
             process_eml_file(filepath)  # 处理附件
 
             # 添加文件链接
-            file_link = url_for('uploaded_file', filename=extracted_filename, _external=True)
+            file_link = url_for('uploaded_file', filename=filename, _external=True)
             file_links.append(file_link)
 
         # 保存其他文件
         else:
             uploaded_file.save(filepath)
             # 添加文件链接
-            file_link = url_for('uploaded_file', filename=extracted_filename, _external=True)
+            file_link = url_for('uploaded_file', filename=filename, _external=True)
             file_links.append(file_link)
 
             if filename not in uploaded_files:
