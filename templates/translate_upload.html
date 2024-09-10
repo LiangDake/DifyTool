@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文件翻译</title>
+</head>
+<body>
+    <h2>上传文件以进行翻译</h2>
+    <form action="/translate" method="post" enctype="multipart/form-data">
+        <label for="source_lang">源语言：</label>
+        <input type="text" name="source_lang" id="source_lang" required>
+        <br><br>
+        <label for="target_lang">目标语言：</label>
+        <input type="text" name="target_lang" id="target_lang" required>
+        <br><br>
+        <label for="country">国家风格（可选，默认为China）：</label>
+        <input type="text" name="country" id="country">
+        <br><br>
+        <input type="file" name="file" multiple>
+        <br><br>
+        <input type="submit" value="上传文件">
+    </form>
+</body>
+</html>

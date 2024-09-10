@@ -1,0 +1,366 @@
+Received: from ME3PR01MB6193.ausprd01.prod.outlook.com (2603:10c6:220:104::11)
+ by SY6PR01MB8268.ausprd01.prod.outlook.com with HTTPS; Sun, 16 Jun 2024
+ 23:25:24 +0000
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
+ b=f25pNrMvuNxcBTr0GsTiz0HNba2N9bkY0XcVdDRoGPF4tNJdo2Rm5FbgLLzUts3pPjZIzhBvZtrgbHiSr9oZoBmabvyI4N+WRcpQwB7qg6Ou/ZlPz/iR+qiru/DIbnSMxF97m/Wm9cNYoMjLvCvRjHjUiy8Cms1AoJiwXFf2zJhcbgQOAftRdJJY8lbqnCG2VfANkZlMQaVabeNrGp9uJyNLQO8Yl5hPYdeYLZRN3prlC3VmZy5T2CMFwyB+h6Hm2bRswzLhLemJn8bH9yhToBVhBibroQIu6pe6tHoxxup2bwruWjeicfE1O604vaxtj5fIao714sXZD38YuSdykg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+PXpBFvcJtBxZccMPMQsvgeevZzawDwuvdUx3MIamtw=;
+ b=I+Ng2tvewj7k63eeyM13mEB5kcGxoW6ZGNYjsmxkEkGOKc1QPikXXgRkgAxooRSXG+g14poQRKgPJcEMOME7J799Ml7HZc+9AD+DRmmIbkvDanyYgvk9t838YTLkswgetFe5jSfHaB8O261dpwrPJZQvNWHZngTRZFn+mBYctLdbEulkuBPd7mHH5w9DtbJE/3SWV7BZS+OfftigP8kIqMyNyShIzLa3MyRd5FgBE059Ij4hqEkELdqZ21bU7Q/o6kdBqDjaQrqJLmlIInJCER5vHcqOxUsaKZqRDr2sb1/XB58zok53F50L6dW1b9iywXqRU1RdHZTWsAjrIEFFaA==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 40.107.107.146) smtp.rcpttodomain=myvuw.ac.nz smtp.mailfrom=vuw.ac.nz;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=vuw.ac.nz; dkim=pass (signature was verified) header.d=vuw.ac.nz;
+ arc=pass (0 oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=vuw.ac.nz]
+ dkim=[1,1,header.d=vuw.ac.nz] dmarc=[1,1,header.from=vuw.ac.nz])
+Received: from SY5PR01CA0035.ausprd01.prod.outlook.com (2603:10c6:10:1f8::12)
+ by ME3PR01MB6193.ausprd01.prod.outlook.com (2603:10c6:220:104::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.30; Sun, 16 Jun
+ 2024 23:25:22 +0000
+Received: from SY1PEPF000066C2.ausprd01.prod.outlook.com
+ (2603:10c6:10:1f8:cafe::ad) by SY5PR01CA0035.outlook.office365.com
+ (2603:10c6:10:1f8::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.30 via Frontend
+ Transport; Sun, 16 Jun 2024 23:25:22 +0000
+Authentication-Results: spf=pass (sender IP is 40.107.107.146)
+ smtp.mailfrom=vuw.ac.nz; dkim=pass (signature was verified)
+ header.d=vuw.ac.nz;dmarc=pass action=none header.from=vuw.ac.nz;compauth=pass
+ reason=100
+Received-SPF: Pass (protection.outlook.com: domain of vuw.ac.nz designates
+ 40.107.107.146 as permitted sender) receiver=protection.outlook.com;
+ client-ip=40.107.107.146; helo=AUS01-SY4-obe.outbound.protection.outlook.com;
+ pr=C
+Received: from AUS01-SY4-obe.outbound.protection.outlook.com (40.107.107.146)
+ by SY1PEPF000066C2.mail.protection.outlook.com (10.167.241.52) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7677.15 via Frontend Transport; Sun, 16 Jun 2024 23:25:22 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=U9Of5raDD7jyS6cFexXdnnekzAkyuEMsESOb3W7/SKHdcRoOZ5I9xprhABo59ZH3xzADpAD1kd45qLAsL+xgbyzQ3trX57VxgbaCspsVrusCN96hssY8E2RVPZREDhLe1CJsNaN0afqrEvy/5j77WAcYj7cTl6vKETQ1eDki6iR8Wc8b1jpALzR8hjkjptXUxiTv232+YmS9CHY9B0x1esXL/xxIo8rLbvisrSDHY6F5P8n0PJ5QwhBaElyoBxs3Fjhy+/uldcAeR768tRwG8j8Vpw/mt+5WM7RafEfVyCG0kk1SNVEgO4ZfUbVU+4H49mESLdeJRMMW1nUCpF9OTw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+PXpBFvcJtBxZccMPMQsvgeevZzawDwuvdUx3MIamtw=;
+ b=Mp+/kSdkofx5gNaUIxZxJoZOkIfVPqC40UXn8883T5htXYljFV2Y6aSZfpASb/m8No/jX4hu78jRFeo4W/Eu+1vKEmPa5qj0sHO6VGYfobsJB7sRjEWG8+ersrAzVA49s6Wr1BJiJ9JsAbYxHy7s0Sw9w68vFfnuu98+gSvIPoKPm9mDUderIiY3ePWn3rjJR5wZwNcDt2bQWTjnNNXzmQi4HVGtBjdn3bPUw1a0kawwQ7Ev+diLNkf1Bv1k7z2ccfFGqRYx/lty7iTfPQXv4AZ5x0t7Jbv/+WViNfbgo5Y0YNOWHH3RNnMoWIIkJQqzH6nyYDKCbQz8OJOAvjPvig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vuw.ac.nz; dmarc=pass action=none header.from=vuw.ac.nz;
+ dkim=pass header.d=vuw.ac.nz; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vuw.ac.nz;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+PXpBFvcJtBxZccMPMQsvgeevZzawDwuvdUx3MIamtw=;
+ b=xsTQthd4m04Awm2fnDMOot+ljZ8qHQueMYIwtmjt+v2dbVEUWj4KEoqrlNKg/Jx42lO714x3y9bG9FOdz3CvKfN7gbTLRtK8RlFYI4c5pBVna2THXBCTuNorVOUsH650WLQAJA4bYOqmWgkbko+JPdr9nuA+aaVpeHBFNlIFFwg=
+Received: from SY4PR01MB6734.ausprd01.prod.outlook.com (2603:10c6:10:135::13)
+ by SY4PR01MB6108.ausprd01.prod.outlook.com (2603:10c6:10:f2::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.30; Sun, 16 Jun
+ 2024 23:25:18 +0000
+Received: from SY4PR01MB6734.ausprd01.prod.outlook.com
+ ([fe80::26f1:5cb9:d8a1:33d2]) by SY4PR01MB6734.ausprd01.prod.outlook.com
+ ([fe80::26f1:5cb9:d8a1:33d2%3]) with mapi id 15.20.7677.030; Sun, 16 Jun 2024
+ 23:25:18 +0000
+From: Jyoti Sahni <jyoti.sahni@vuw.ac.nz>
+To: Jyoti Sahni <jyoti.sahni@vuw.ac.nz>
+CC: Alvin Valera <alvin@ecs.vuw.ac.nz>
+Subject: NWEN241 Remote Exam Instructions
+Thread-Topic: NWEN241 Remote Exam Instructions
+Thread-Index: AQHawEHWqPSJNWFaT0iM6wfdi1smdA==
+Date: Sun, 16 Jun 2024 23:25:18 +0000
+Message-ID:
+ <SY4PR01MB673449DDE012B0ED07624281AACC2@SY4PR01MB6734.ausprd01.prod.outlook.com>
+Accept-Language: en-NZ, en-US
+Content-Language: en-NZ
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vuw.ac.nz;
+x-ms-traffictypediagnostic:
+ SY4PR01MB6734:EE_|SY4PR01MB6108:EE_|SY1PEPF000066C2:EE_|ME3PR01MB6193:EE_|SY6PR01MB8268:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8155fc77-89a2-4e06-4508-08dc8e5b97e4
+x-ld-processed: cfe63e23-6951-427e-8683-bb84dcf1d20c,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+X-Microsoft-Antispam-Untrusted:
+ BCL:0;ARA:13230037|1800799021|376011|366013|38070700015;
+X-Microsoft-Antispam-Message-Info-Original:
+ =?us-ascii?Q?h7/NJQCvcFP+CjRpwTVGQF9BM8En64/L+HBqRT3S6qctpu3PXdpmUsSToZJn?=
+ =?us-ascii?Q?kqztQWbfq49hwkI/ogqTYzoObHsMjVcskxjbFruR5ZAVgbSm0lWdYP4x2Jnj?=
+ =?us-ascii?Q?U9fYDnxLn869AwecYxVWIGQmbRiCiAgYfSs/6TlXnu4FizR5swSGS2a8qrg8?=
+ =?us-ascii?Q?7AZQcyxQ3raZMwrA2oL1HA3SIyL4dE0B2Ntp2f4ON0QoSmJvtYBFgFMsveXi?=
+ =?us-ascii?Q?TAUXFrlwjm4c/IQHcKEPSYDYPkskl8Kv0MxDhce+XD86IbgrjAvVZ1DnofA8?=
+ =?us-ascii?Q?CSgNZr40of5qun2H9A32ZiEXob4E8GrmvtCdKcqyK89hsIcVIT8brZaSR3er?=
+ =?us-ascii?Q?YILZx1tLoZtUktW0rxAA8krbv8pq4ljLHSQn62uBafHWGFJ2vp3QgoCPEqJy?=
+ =?us-ascii?Q?la09gT5qcPMc15YGYrtYg0UyyfD5tNppyaRgaR5sUXCfxzBWbi9wQHl82DEv?=
+ =?us-ascii?Q?DenThPCpVAPOZqMB8X/DXGMxmLuT0cbd/NQ+WInCi2+5gRQRj6gznYsz97eo?=
+ =?us-ascii?Q?+sHwbjvRu25quG5RSFj42a4ZeyE4Prf4+hHs9BdClEsnkKukSn6GeLEo5yrU?=
+ =?us-ascii?Q?v5sw0Lfdsg6LbdtunDsL4xynR6d2XNjRXOPdSn+9GK7p94dYh+yd6v5IbwD6?=
+ =?us-ascii?Q?//KLHVLXBiM9P80ZM4ePF6jOg7C/TCu3ZxywoaH6h9shSuFX56Odv3yIPMGy?=
+ =?us-ascii?Q?oj9/ocHw+iJFi9rq8BaNG+tym4jr60ZbDOoA2StpUFtNHJ/D03BQlQP0c+E6?=
+ =?us-ascii?Q?7BTXOtvMpZ315u3pI8fkzsIKUlVsfyvxpUHVVIq6IKTeOIPsA5OGVohkZEeg?=
+ =?us-ascii?Q?ucNmzgGiodrMxybA2OdJdsgZzg4eDQdfYceUB7dle1/lr0s7yEVL9OraJNe8?=
+ =?us-ascii?Q?EWNh1JfQidqarEkJRLuvqYqmbuvj9xUOhiNDvf3cqIMs7YVjx4xBk4qsI5GG?=
+ =?us-ascii?Q?i437pD7rwDwonWgYymjdjfyQCeFOZC8MKEBbX20Be73ZhIz061v9LSYeCVXU?=
+ =?us-ascii?Q?Jn5NywJjONKyk30jdJDwQoGIpYdyEz1h0fgxBOYGH/3iG1OKzVh/Tw/fQKD7?=
+ =?us-ascii?Q?x6mSF1Mj6bI/01Vo4MjD+EjrPcPuMWe8oj0H1mpd+n5exboTAMNuIEM/Ff/k?=
+ =?us-ascii?Q?XkOwwNBX1yrFQSjklPmG5S6OQQv0vqM6xi3rZU4OZ+koYykXDra0dIwYHcWH?=
+ =?us-ascii?Q?vBCkCyPRT8tD4qGeTHa1L2WyVtrN4RGuMMQxn66W9DiQeH1wHugoem33GXLE?=
+ =?us-ascii?Q?9qBIao1fcv02jCyn1NYj7wQfj4htiMkOTkS0p1bti3kJCAqU2UsI+pU9moF3?=
+ =?us-ascii?Q?/54xyxlX5GzkyWbOLgNhqtVS?=
+X-Forefront-Antispam-Report-Untrusted:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SY4PR01MB6734.ausprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230037)(1800799021)(376011)(366013)(38070700015);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-Original-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-Original-0:
+ =?iso-8859-4?Q?dveMw5CS/mrx3oZS5B6sRC88393i1leLhy1nk7nGTsII7NqoNaBhYxKu0S?=
+ =?iso-8859-4?Q?XtcB9AUqN/5VL4brnUZ3pea596Ots44L7lqP/zG4BbNnt9Q9nsz6OI26gj?=
+ =?iso-8859-4?Q?PZhO2OyW0kYs6KYLuUhuyZnb/ImqmWzcj40J0lgjM1srMrCrK8wVp3q4f4?=
+ =?iso-8859-4?Q?MPlkzP3SVlJi6FFlORIkl+PIm0FIlD/vH3rF2uhcz8pu94zMWj0nslNuVv?=
+ =?iso-8859-4?Q?BYjf8D/u2/BiZ35MlJSPmak5WPCXB9HYpMo2M1DWAWZfTvga+gYtU98MX5?=
+ =?iso-8859-4?Q?BGtGOnK26j3y/mnt05XpPYeDLZbgThSIe3uP+k0pge8ZNU0xUvlUuDBBTF?=
+ =?iso-8859-4?Q?3POjgQS/Lik7YtzrUCV23DaSNvXJgnmYislGDlUZ7QlsAZZwOSs4vDKJjt?=
+ =?iso-8859-4?Q?sa69gKEz0ffdvBFFDHkllMDzpQrrrcZZicyaI4yDkzg3IhV6q0ImqeiF3b?=
+ =?iso-8859-4?Q?VwKXuLQwQCCNrxp1PVcgC0nEtAn0vOOoM3a/m0D3XYu1f6gGnKCdhi+l9B?=
+ =?iso-8859-4?Q?lDjVvI9/EhcwdL9JlQ2rJrNC8JUmZ4hZb8yJgcmEeKAoFYkWbt5IOtPjCU?=
+ =?iso-8859-4?Q?oUMuVSNMcY50eVl7HMXk00eDZCqTjOw4uI8/EHJMPOLErc58D69N2hvtoH?=
+ =?iso-8859-4?Q?yjaQIUTVMCtifEgbpClxFMXwT40LuKDvNkIsFz8uk12iAB5/X8N0N4i7Ey?=
+ =?iso-8859-4?Q?jxvtwzAyHWQRazhzo+jF5PCE9OyxOfvs0qjH32eKlJkquXU2maF6ttfukS?=
+ =?iso-8859-4?Q?KsSW6gYblAVfuHAaQZIuSJb06PmXdRdrWdabwd5mI3Wl/OjoL9/EZFcfkT?=
+ =?iso-8859-4?Q?aqyZ1wVLNQxYlRSmNQR0ikgBIILxS4LkRSMLXy4SwqHH5fRZnlO6UXEaK8?=
+ =?iso-8859-4?Q?TkhYF8Pq5eRtUybRIU4cUj6UiC18TjNiIEqqG5gq4eAEiiFXH+THd2tkdJ?=
+ =?iso-8859-4?Q?ohdPMWNKoVUL2pJloURFexk5T0xhcIjIAo09yQ+h4g+NSnqUqbuhRRxUSl?=
+ =?iso-8859-4?Q?mtXEQRubVTYCbqrXcYcvg+4XKB+Ll0rWUf3PgXTdHsS0LwQrAXrkJqrfM+?=
+ =?iso-8859-4?Q?DMb1je/0ZNWnitd02R8LpiUEXOB9e3oLvrWaiSMtXxx4gD/U1Q/mdcYwjI?=
+ =?iso-8859-4?Q?AEn8bx9CPyifVK0epnWrVLliO+ffri0wCQi18MgflKhpFcVaUnmBK1VB9p?=
+ =?iso-8859-4?Q?GCAuAt7QQkvqSsH3c3cY9FZXgeL+0J3NomsVY7I+S8SXQKEWB6TqYzn+yo?=
+ =?iso-8859-4?Q?KRtYV31pMwD9qaR5+VcgMTCyKVzHoGCT/zUkJ7xBa/0C/kpo0aXyiYbWrU?=
+ =?iso-8859-4?Q?VFODDvT515B3510sY2olfv4VeKKmcyjzRjWPw7bsAIVTXZg37yVaRNma+w?=
+ =?iso-8859-4?Q?dCtQs26QWTR2KL47lGckWiLcQamF+pnylYJ8/LKYG6clgrYngj2iCxbJ+f?=
+ =?iso-8859-4?Q?3lFPYNuecnmiY6evcjLIUpVsIwbKCsYN0Neufze8fUT6pM+B31mg2TaipO?=
+ =?iso-8859-4?Q?qcdFYCBzsDXaW59PT2Wa3IaMhOzMPQGdXbrF9hszJ5AWy0temXMWnHQZyy?=
+ =?iso-8859-4?Q?/KUFFgfaqkca1lFUriF2q3POS0kyO6XQRUhfCgVJa+YgAY4rqdn/TJfRMU?=
+ =?iso-8859-4?Q?4vs7PeMx8x5ro7KDqeDL1t5Nj31yrVsEag?=
+Content-Type: multipart/alternative;
+	boundary="_000_SY4PR01MB673449DDE012B0ED07624281AACC2SY4PR01MB6734ausp_"
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SY4PR01MB6108
+Return-Path: jyoti.sahni@vuw.ac.nz
+X-MS-Exchange-Organization-ExpirationStartTime: 16 Jun 2024 23:25:22.1255
+ (UTC)
+X-MS-Exchange-Organization-ExpirationStartTimeReason: OriginalSubmit
+X-MS-Exchange-Organization-ExpirationInterval: 1:00:00:00.0000000
+X-MS-Exchange-Organization-ExpirationIntervalReason: OriginalSubmit
+X-MS-Exchange-Organization-Network-Message-Id:
+ 8155fc77-89a2-4e06-4508-08dc8e5b97e4
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: ece73f9a-ba85-4235-b183-688048b0c0ae:0
+X-MS-Exchange-Organization-MessageDirectionality: Incoming
+X-MS-Exchange-Transport-CrossTenantHeadersStripped:
+ SY1PEPF000066C2.ausprd01.prod.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersPromoted:
+ SY1PEPF000066C2.ausprd01.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Exchange-Organization-AuthSource:
+ SY1PEPF000066C2.ausprd01.prod.outlook.com
+X-MS-Exchange-Organization-AuthAs: Anonymous
+X-MS-Office365-Filtering-Correlation-Id-Prvs:
+ 740a39f7-e9b6-49d8-4d3b-08dc8e5b95c8
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-Organization-BypassClutter: true
+X-MS-Exchange-Organization-SCL: -1
+X-Microsoft-Antispam: BCL:0;ARA:13230037|35042699019;
+X-Forefront-Antispam-Report:
+ CIP:40.107.107.146;CTRY:AU;LANG:en;SCL:-1;SRV:;IPV:NLI;SFV:SKA;H:AUS01-SY4-obe.outbound.protection.outlook.com;PTR:mail-sy4aus01on2146.outbound.protection.outlook.com;CAT:NONE;SFS:(13230037)(35042699019);DIR:INB;
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2024 23:25:22.1099
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8155fc77-89a2-4e06-4508-08dc8e5b97e4
+X-MS-Exchange-CrossTenant-Id: ece73f9a-ba85-4235-b183-688048b0c0ae
+X-MS-Exchange-CrossTenant-AuthSource:
+ SY1PEPF000066C2.ausprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: ME3PR01MB6193
+X-MS-Exchange-Transport-EndToEndLatency: 00:00:02.2065366
+X-MS-Exchange-Processed-By-BccFoldering: 15.20.7677.026
+Importance: high
+X-Priority: 1
+X-Microsoft-Antispam-Mailbox-Delivery:
+	ucf:0;jmr:0;auth:0;dest:I;ENG:(910001)(944506478)(944626604)(920097)(930097)(140003);
+X-Microsoft-Antispam-Message-Info:
+	=?iso-8859-4?Q?5Ib7fAa/XqifdN84AuWtDrTna4re9wh9tHutIJRj6iUfskc+fwUqoYGVWH?=
+ =?iso-8859-4?Q?ys/zD4E4HbjYNzgwHTlrUxRuzs1jiyCghHKWtIP55Kl5xmMD6G4uvJaYAY?=
+ =?iso-8859-4?Q?o3QiiusH6rjYOYXLJEFbHq2O3zq2BUd4DhVQMBq200r7aCFxtkX97bmuOD?=
+ =?iso-8859-4?Q?8aDt7sGWjOmSDCAfN7+V7WozmueKwUiOYe8/wnZM9V0/4ubEmY2E72mhir?=
+ =?iso-8859-4?Q?Fk3IYxubNmmusF7egqR9+5R8vVhsYpLZ7kWkPF5wimx7W+VWWX2S6wUl9H?=
+ =?iso-8859-4?Q?Xqh1fe7vIUpPvV2BArm+u3PQ9Pm7J++6F0xWOZDyQUB8kKS7mF2hkKnRWs?=
+ =?iso-8859-4?Q?gc6RH0Z4dt+7F7PhUS49ZtW/biw8fTcKuJCeUlXSuvoeqGeJbEOcisfYTT?=
+ =?iso-8859-4?Q?8NuhSCLw2PyghZb8qAK065ScK/CeMnF5936en0ZE2R1bwQWBb6r0xf7hw0?=
+ =?iso-8859-4?Q?zCZ6CCsCBx9hYJRxZtGx9u7KGGIMsw+GdCmDdSTxuEe6yb0wqgTq2IwF20?=
+ =?iso-8859-4?Q?CgqNkNksWg343FTzxcgXpfWRTK7DequsojompnvB4nrfNG7OrIJww4Xjrz?=
+ =?iso-8859-4?Q?QWDZmMA0g11Aef90+p/fZ6RFpdlFLYtk32xQX9C2LkCecgJDlQqLI5I6e9?=
+ =?iso-8859-4?Q?FkEDiWz7hyWcsVIhCi3EdEtQCYD3BqDXQObow5GFCb9gafuZyxur25uCUz?=
+ =?iso-8859-4?Q?aMs3/bdhNdaYnlnGlz0B8PgERGcTVbRrQUeuE1ff9KDsdk+Yu9ARSMLtpM?=
+ =?iso-8859-4?Q?tZHTOS6UphxgBMrzWGjb65ATPTaoABvevwHPpDELQ39nBsFdP5E1Egxsr1?=
+ =?iso-8859-4?Q?SN5k4MNv8axF8pReE35OuEvcnFozKDC0almFyTS/bZE3kVe72bnjH3/Lkl?=
+ =?iso-8859-4?Q?/syYpiwu6FsxtA4D4YNaua096Ps+ciiX0ka0tNEiomZU7M7IryCBAN45Gm?=
+ =?iso-8859-4?Q?QjkOmdhOuB7Syoat+ODKXBoeRpIKCepUPYZ+Bdtihf5DPb1orvykioYnwx?=
+ =?iso-8859-4?Q?PjjYkzfuYQM3tM1YGuCOiyakjLqMZt/v1Chv5QEQ7TslcnrQ2YX6IQyW7A?=
+ =?iso-8859-4?Q?l8O2YypnQRFhPUkSfwJF1hF8+p6fUBi8lzqLxx9w4SpwdJBfxi0WylE5oK?=
+ =?iso-8859-4?Q?KFxr5tTts5o8LydKoRuX3bYBibDAOSTBwFObEWBAD25LQc9NF9ON6UzJ8Q?=
+ =?iso-8859-4?Q?8fI1pQEeZEPpw3i+8APCwZbUgbBpRyfQaQpcJ0SCjDTiBe5RA34vk2Xl5r?=
+ =?iso-8859-4?Q?B/wIdeL12ZHVhNDCEg6UYLWFj+ddug4AjqoAc31m20GBUt2Uz0KCclpjLY?=
+ =?iso-8859-4?Q?1/Wt33bvA12dB16V3MybqG6YeGjC0aQaApC1UoF7vpeqnm6XDG/8N4GTYD?=
+ =?iso-8859-4?Q?VDLMcnZeLsMUsnTWaG8tD/OEFAiBkGjWvM3k+E+cfNc/ObKsg+Muy9kA16?=
+ =?iso-8859-4?Q?WsYsdOpmk+7vs1S/54/0MA322R8LdOkJfM1Z8r0zfkaZ+JIMVSFRLCscXg?=
+ =?iso-8859-4?Q?F2x8QRt6EBUMToS8EGF5KBOE9aSklP9N3FW0PHWEGxWgmyPImWhR6Efq7r?=
+ =?iso-8859-4?Q?9WxFwIU6WyLy0ObqZirPwB7zTuEEFel3Owsml3ddFeJOR1bbq4xvefodbR?=
+ =?iso-8859-4?Q?DZ9nctzr9kb/CnnNW6xP682kHf0cRS35Yf8+Fihy6a/knjGo0IbLplh5oB?=
+ =?iso-8859-4?Q?KJXSZ7Sn7S9lw5zOxqrD/LxlKpgLDyd8gY2TwfV5GocXFrUnhM1GiopgUy?=
+ =?iso-8859-4?Q?7gD/xpMPWxq/pThDVGKA4mf21NbifFoI4oNoZd0JFf4i95R7lYUvsR8t/V?=
+ =?iso-8859-4?Q?q2YpXz5l6omcAynzNWbu2Ec6rS/RuhMIHEprFPi5i2+qse7vmV0N31e+sY?=
+ =?iso-8859-4?Q?Vfhs7bmu3N9xhjM53xP0TbiMHBp25C3CMXDR5NB54pfBrX5h+AwBpfGYrl?=
+ =?iso-8859-4?Q?uENLb0xXh1+CiKSGFVB99h1EoO6Hql2Tl0Fo+Zyy25dZSy6jUTI8q8HJCw?=
+ =?iso-8859-4?Q?clOnmEgiEIg2K1cIHMUfk7BAlA7oNDiDwiO1Dp/bHwM9aSNJLjr/nzPSX6?=
+ =?iso-8859-4?Q?SaXm3depHZsHB/YXlOXx5jEi7kbaT+q61pWCQO3livc1Q9p7Po2YH3TDWO?=
+ =?iso-8859-4?Q?FBzubhAg0EBRlcnz1IbpnEOyi43OXJbRq2Lw+xGfTb1qI7mXUo5ZrD92SC?=
+ =?iso-8859-4?Q?motQj4ePUDTk8a070b5nIedSwj1rTOBt/ImbXOxwfTYC0g=3D=3D?=
+MIME-Version: 1.0
+
+--_000_SY4PR01MB673449DDE012B0ED07624281AACC2SY4PR01MB6734ausp_
+Content-Type: text/plain; charset="iso-8859-4"
+Content-Transfer-Encoding: quoted-printable
+
+Dear Student,
+
+This mail is being sent to you as you are scheduled to take the NWEN241 fin=
+al exam online tomorrow, June 18, 2024, at 2:30 pm.
+
+The instructions for the remote test are posted at: https://ecs.wgtn.ac.nz/=
+Courses/NWEN241_2024T1/RemoteTestInstructions
+
+It is important that you visit the link as soon as you receive this e-mail.=
+ Carefully read the instructions in that page and bookmark it for future re=
+ference. If you are not able to access the page or if you have questions re=
+garding the final exam arrangement, please let me know as soon as possible =
+by replying to this e-mail.
+
+Request to please acknowledge the receipt of this mail.
+
+Best Wishes,
+Jyoti
+
+
+--
+Dr. Jyoti Sahni (she/her)
+Lecturer/P=FEkenga
+Engineering and Computer Science/Te Kura M=E0tai P=FEkaha, P=FErorohiko
+Victoria University of Wellington/Te Herenga Waka
+New Zealand/Aotearoa
+
+
+--_000_SY4PR01MB673449DDE012B0ED07624281AACC2SY4PR01MB6734ausp_
+Content-Type: text/html; charset="iso-8859-4"
+Content-Transfer-Encoding: quoted-printable
+
+<html><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+4">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div class=3D"elementToProof" style=3D"text-align: left; text-indent: 0px; =
+margin: 0px; font-family: Cambria, Georgia, serif; font-size: 11pt; color: =
+rgb(0, 0, 0);">
+Dear Student,</div>
+<div style=3D"text-align: left; text-indent: 0px; margin: 0px; font-family:=
+ Cambria, Georgia, serif; font-size: 11pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"text-align: left; text-indent: 0px; =
+margin: 0px; font-family: Cambria, Georgia, serif; font-size: 11pt; color: =
+rgb(0, 0, 0);">
+This mail is being sent to you as you are scheduled to take the NWEN241 fin=
+al exam online tomorrow,<b>&nbsp;June 18, 2024, at 2:30 pm.</b></div>
+<div style=3D"text-align: left; text-indent: 0px; margin: 0px; font-family:=
+ Cambria, Georgia, serif; font-size: 11pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"text-align: left; text-indent: 0px; =
+margin: 0px; font-family: Cambria, Georgia, serif; font-size: 11pt; color: =
+rgb(0, 0, 0);">
+The instructions&nbsp;for the remote&nbsp;test&nbsp;are posted at: <a href=
+=3D"https://ecs.wgtn.ac.nz/Courses/NWEN241_2024T1/RemoteTestInstructions" t=
+arget=3D"_blank" id=3D"OWA1ec1547b-c994-e662-1612-19ea79e0d7c1" class=3D"OW=
+AAutoLink" rel=3D"noopener noreferrer" shash=3D"cAdM2Exd4ZwgtkNYgl6ZVKsp3tu=
+r/blV/+qYGe+k5dDaU0KqhF9m0HcqHuSh3kLdlB5yiG9rcFa59U0t8PLmcxLA+KjUx5a9wGyuYb=
+1ZPMIya1yDcOO9C597DoeA61iJ+nrVmu04DV64AHuhtgWF5wSKh5dLTdxGLG5wMRM3aiY=3D" o=
+riginalsrc=3D"https://ecs.wgtn.ac.nz/Courses/NWEN241_2024T1/RemoteTestInstr=
+uctions" data-auth=3D"VerificationFailed" data-loopstyle=3D"linkonly" data-=
+linkindex=3D"0" style=3D"margin: 0px;">
+https://ecs.wgtn.ac.nz/Courses/NWEN241_2024T1/RemoteTestInstructions</a></d=
+iv>
+<div style=3D"text-align: left; text-indent: 0px; margin: 0px; font-family:=
+ Cambria, Georgia, serif; font-size: 11pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"text-align: left; text-indent: 0px; =
+margin: 0px; font-family: Cambria, Georgia, serif; font-size: 11pt; color: =
+rgb(0, 0, 0);">
+It is important that you visit the link as soon as you receive this e-mail.=
+ Carefully read the instructions&nbsp;in that page and bookmark it for futu=
+re reference. If you are not able to access the page or if you have questio=
+ns regarding the final exam arrangement,
+ please let me know as soon as possible by replying to this e-mail.</div>
+<div style=3D"text-align: left; text-indent: 0px; margin: 0px; font-family:=
+ Cambria, Georgia, serif; font-size: 11pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"text-align: left; text-indent: 0px; margin: 0px; font-family:=
+ Cambria, Georgia, serif; font-size: 11pt; color: rgb(0, 0, 0);">
+Request to please acknowledge the receipt of this mail.</div>
+<div style=3D"text-align: left; text-indent: 0px; margin: 0px; font-family:=
+ Cambria, Georgia, serif; font-size: 11pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"text-align: left; text-indent: 0px; margin: 0px; font-family:=
+ Cambria, Georgia, serif; font-size: 11pt; color: rgb(0, 0, 0);">
+Best Wishes,</div>
+<div style=3D"text-align: left; text-indent: 0px; margin: 0px; font-family:=
+ Cambria, Georgia, serif; font-size: 11pt; color: rgb(0, 0, 0);">
+Jyoti</div>
+<div style=3D"text-align: left; text-indent: 0px; margin: 0px; font-family:=
+ Cambria, Georgia, serif; font-size: 11pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"text-align: left; text-indent: 0px; margin: 0px; font-family:=
+ Cambria, Georgia, serif; font-size: 11pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"text-align: left; text-indent: 0px; margin: 0px; font-family:=
+ Cambria, Georgia, serif; font-size: 11pt; color: rgb(0, 0, 0);">
+--</div>
+<div style=3D"text-align: left; text-indent: 0px; margin: 0px; font-family:=
+ Cambria, Georgia, serif; font-size: 11pt; color: rgb(0, 0, 0);">
+Dr. Jyoti Sahni (she/her)</div>
+<div style=3D"text-align: left; text-indent: 0px; margin: 0px; font-family:=
+ Cambria, Georgia, serif; font-size: 11pt; color: rgb(0, 0, 0);">
+Lecturer/P=FEkenga</div>
+<div style=3D"text-align: left; text-indent: 0px; margin: 0px; font-family:=
+ Cambria, Georgia, serif; font-size: 11pt; color: rgb(0, 0, 0);">
+Engineering and Computer Science/Te Kura M=E0tai P=FEkaha, P=FErorohiko</di=
+v>
+<div style=3D"text-align: left; text-indent: 0px; margin: 0px; font-family:=
+ Cambria, Georgia, serif; font-size: 11pt; color: rgb(0, 0, 0);">
+Victoria University of Wellington/Te Herenga Waka</div>
+<div style=3D"text-align: left; text-indent: 0px; margin: 0px; font-family:=
+ Cambria, Georgia, serif; font-size: 11pt; color: rgb(0, 0, 0);">
+New Zealand/Aotearoa</div>
+<div class=3D"elementToProof" style=3D"text-align: left; text-indent: 0px; =
+margin: 0px; font-family: Cambria, Georgia, serif; font-size: 11pt; color: =
+rgb(0, 0, 0);">
+<br>
+</div>
+</body>
+</html>
+
+--_000_SY4PR01MB673449DDE012B0ED07624281AACC2SY4PR01MB6734ausp_--

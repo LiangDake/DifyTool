@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文件翻译与总结</title>
+    <style>
+        .button-container {
+            display: flex;
+            gap: 10px; /* 按钮之间的间距 */
+        }
+    </style>
+    <script type="text/javascript">
+        function submitSummary() {
+            fetch('/build_knowledge_graph', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.summary_success) {
+                    alert('总结成功');
+                } else {
+                    alert('总结失败');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('请求失败');
+            });
+        }
+
+        function submitDelete() {
+            fetch('/delete_knowledge_graph', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.delete_success) {
+                    alert('删除成功');
+                } else {
+                    alert('删除失败');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('请求失败');
+            });
+        }
+        function submitQuery() {
+            const queryText = document.getElementById('query_text').value;
+            const chromaPath = document.getElementById('chroma_path').value;
+            const fileNum = document.getElementById('file_num').value;
+
+            fetch('/query_knowledge_base', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'query_text': queryText,
+                    'chroma_path': chromaPath,
+                    'file_num': fileNum
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    document.getElementById('query_result').innerText = data.response;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('请求失败');
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>上传文件</h1>
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <input type="file" name="files[]" multiple>
+        <button type="submit">上传</button>
+    </form>
+
+    <h2>已上传文件</h2>
+    <ul>
+        {% for file in uploaded_files %}
+        <li>
+            <a href="{{ url_for('preview_file', filename=file) }}" target="_blank">{{ file }}</a>
+            <form action="/delete_uploaded/{{ file }}" method="POST" style="display:inline;">
+                <button type="submit">删除</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <!-- 将按钮包裹在一个容器中 -->
+    <div class="button-container">
+        <form action="/translate" method="POST">
+            <button type="submit">翻译所有文件</button>
+        </form>
+
+        <form action="/conclusion" method="POST">
+            <button type="submit">总结所有文件</button>
+        </form>
+
+        <form action="javascript:void(0);" onsubmit="submitSummary()">
+            <button type="submit">构建知识图谱</button>
+        </form>
+
+        <form action="javascript:void(0);" onsubmit="submitDelete()">
+            <button type="submit">删除知识图谱</button>
+        </form>
+    </div>
+
+    <h2>处理后的文件</h2>
+    <ul>
+        {% for file in processed_files %}
+        <li>
+            <a href="{{ url_for('download_file', filename=file) }}">{{ file }}</a>
+            <form action="/delete_processed/{{ file }}" method="POST" style="display:inline;">
+                <button type="submit">删除</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <!-- 查询知识库部分 -->
+    <div class="form-group">
+        <h2>查询知识库</h2>
+        <div class="form-inline">
+            <label for="query_text">查询文本:</label>
+            <input type="text" id="query_text" name="query_text" required>
+        </div>
+        <div class="form-inline">
+            <label for="chroma_path">知识库选择:</label>
+            <select id="chroma_path" name="chroma_path" required>
+                {% for folder in knowledge_folders %}
+                <option value="{{ folder }}">{{ folder }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-inline">
+            <label for="file_num">文件数量:</label>
+            <input type="number" id="file_num" name="file_num" min="1" value="1">
+        </div>
+        <button type="button" onclick="submitQuery()">查询</button>
+    </div>
+
+    <!-- 查询结果显示 -->
+    <div class="form-group">
+        <h3>查询结果</h3>
+        <div id="query_result" style="white-space: pre-wrap; border: 1px solid #ccc; padding: 10px;"></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Files in {{ folder_name }}</title>
+</head>
+<body>
+    <h1>Files in Folder: {{ folder_name }}</h1>
+    <ul>
+        {% for file in files %}
+            <li>{{ file }}</li>
+        {% endfor %}
+    </ul>
+    <h1>{{response}}</h1>
+    <a href="/">Back to Upload</a>
+</body>
+</html>
