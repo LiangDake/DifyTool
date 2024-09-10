@@ -79,10 +79,10 @@ def processed_file(filename):
 @app.route('/upload', methods=['POST'])
 def upload_files():
     global uploaded_files
-    if 'files[]' not in request.files:
+    if 'files' not in request.files:
         return redirect(request.url)
 
-    files = request.files.getlist('files[]')
+    files = request.files.getlist('files')
     file_links = []  # 用于存储文件链接
 
     # 遍历每一个文件
